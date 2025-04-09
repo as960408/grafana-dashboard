@@ -1,0 +1,1101 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: warning group
+      folder: warning-rule
+      interval: 30s
+      rules:
+        - uid: c660e6d8-7899-40fe-a1ae-b9edf6544a97
+          title: HighDiskUsage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: ' (1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}))     * 100 '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 75
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 3m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+        - uid: b3226373-87ab-4364-a982-68c101f7b486
+          title: HighDiskIO
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'rate(node_disk_io_time_seconds_total[5m]) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.7
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 10m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+        - uid: f2fa715b-aee9-43fe-8672-2cabb1077bb0
+          title: High5GNetworkTransmit
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'rate(node_network_transmit_bytes_total[5m]) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1e+09
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 10m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+        - uid: e8a5ec9c-5973-4018-a446-2b780d419621
+          title: High5GNetworkReceive
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'rate(node_network_receive_bytes_total[5m]) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1e+09
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 10m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+        - uid: dbf8c9b6-0a08-496b-8e85-79894c419949
+          title: TooManyPods
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'count(kube_pod_info) by(job) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 10000
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+        - uid: b47acc78-0a05-49e3-9cf4-b730440b0a45
+          title: ' HighAPIResponseLatencyMedian'
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'histogram_quantile(0.50, sum(rate(apiserver_request_duration_seconds_bucket[5m])) by (le, job)) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.005
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 10m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+        - uid: cffddb68-b7b8-4818-bff5-c7104f8c5f3d
+          title: 'HighCPUUsage '
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'avg by(instance,job) (rate(node_cpu_seconds_total{mode="idle"}[5m])) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.2
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 10m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+        - uid: aaef899c-331b-4b7f-9784-be1c0f1b752e
+          title: HighMemoryUsage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: ' (1 - (avg_over_time(node_memory_MemAvailable_bytes[5m]) / avg_over_time(node_memory_MemTotal_bytes[5m]))) * 100'
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 75
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 3m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: warning
+          isPaused: false
+    - orgId: 1
+      name: target
+      folder: alet_rule-test
+      interval: 1m
+      rules:
+        - uid: c7f7a1d5-8421-4e94-9d58-a4d35041a256
+          title: target-down
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: '100 * (count(up == 0) BY (cluster, instance, email,job) / count(up) BY (cluster, instance, email,job)) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 10
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+    - orgId: 1
+      name: critical
+      folder: critical-rule
+      interval: 30s
+      rules:
+        - uid: d768dd8f-9669-4e58-b42b-59a0156d7263
+          title: HighCPUUsage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: avg by(instance,job,cluster,email) (rate(node_cpu_seconds_total{mode="idle"}[5m]))
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.1
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: de6f99cb-0786-4767-91de-dae8438ff2cb
+          title: HighDiskUsage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: '(1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}))* 100 '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 80
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 3m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: a7a28fa2-d87d-48f0-8cf1-11259b1267e8
+          title: ' HighDiskIO'
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'rate(node_disk_io_time_seconds_total[5m]) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.8
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: aa1105b8-193e-4ebd-9dfd-6a69dae8b241
+          title: HighNetworkTransmit
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: rate(node_network_transmit_bytes_total[5m])
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1e+10
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: cf454d04-900b-412f-a9dd-3a213b70717c
+          title: HighNetworkReceive
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'rate(node_network_receive_bytes_total[5m]) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1e+10
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: d3303e4b-ab37-4edd-bdaa-47ac88a3caf4
+          title: MasterNodeNotReady
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: kube_node_status_condition{condition="Ready", status="true", node=~".*master.*"}  == 0
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                            - 0
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: f8f77509-a57e-425a-8279-177d4d61a88e
+          title: TooManyPods
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'count(kube_pod_info) by(job,cluster,email) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 20000
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 1m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: dd28806b-9f1b-4f00-b3ba-e9129debaaf7
+          title: TooManyPods ober 23000
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: 'count(kube_pod_info) by(job,cluster,email) '
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 23000
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 10m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: cbf863a7-2ec9-4e45-8a16-55ad0368b5b4
+          title: HighAPIResponseLatency
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket[5m])) by (le, job,email,cluster))
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 60
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 10m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
+        - uid: a82b2475-4313-4087-86af-a409aa8b7897
+          title: HighMemoryUsage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: eea9e5b0-5cce-48b1-b13b-bd2e75dab75c
+              model:
+                editorMode: code
+                expr: ' (1 - (avg_over_time(node_memory_MemAvailable_bytes[5m]) / avg_over_time(node_memory_MemTotal_bytes[5m]))) * 100'
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 60
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 85
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: OK
+          for: 1m
+          annotations:
+            description: |-
+                - target: {{ $labels.job }}
+                - cluster: {{ $labels.cluster }}
+                - email: {{ $labels.email }}
+          labels:
+            serverity: critical
+          isPaused: false
